@@ -99,7 +99,7 @@ class PreProcess:
         preprocessor = ColumnTransformer(
             transformers=[
                 ('num', numeric_transformer, num_cols),
-                ('cat', categorical_transformer, cat_cols)
+                ('cat', categorical_transformer, category_cols)
             ]
         )
 
