@@ -1,5 +1,6 @@
 """
-A script containing the PreProcess class, primarily used for pre-processing the training data ready to pass to the model.
+A script containing the PreProcess class, primarily used for pre-processing the 
+training data ready to pass to the model.
 """
 
 import numpy as np
