@@ -32,9 +32,11 @@ class PreProcess:
         
         """
 
-        Separates the data in "SalePrice" column from the rest of the training data, as the model has to not see this data. 
+        Separates the data in "SalePrice" column from the rest of the training 
+        data, as the model has to not see this data. 
 
-        Also prepares the "SalePrice" data as a Pandas Series against which to compare model predictions .
+        Also prepares the "SalePrice" data as a Pandas Series against which to 
+        compare model predictions .
 
         """
 
@@ -53,7 +55,8 @@ class PreProcess:
 
         """
         
-        Further separates the input features in the training data based on whether or not they contain numbers.
+        Further separates the input features in the training data based on 
+        whether or not they contain numbers.
 
         The model will only be able to ingest numbers, so this step is crucial.
 
@@ -76,9 +79,11 @@ class PreProcess:
 
         """
         
-        Pre-processes the data by scaling the numerical values and converting the categorical entries into numbers with one-hot encoding.
+        Pre-processes the data by scaling the numerical values and converting
+        the categorical entries into numbers with one-hot encoding.
 
-        Returns the combined pre-processed data as one object ready to be passed to the model.
+        Returns the combined pre-processed data as one object ready to be
+        passed to the model.
 
         """
         
@@ -104,7 +109,10 @@ class PreProcess:
 
         """
 
-        Ties other methods together into single callable method. User will only use this method to return both pre-processed training data and sale prices (which consistute the answers against which model predictions can be checked).
+        Ties other methods together into single callable method. User will only 
+        use this method to return both pre-processed training data and sale 
+        prices (which consistute the answers against which model predictions 
+        can be checked).
 
         """
 
