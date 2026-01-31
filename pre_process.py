@@ -13,7 +13,7 @@ from typing import List
 class PreProcess:
 
 
-    __slots__ = training_data
+    __slots__ = raw_df, preprocessor
 
 
     def __init__(self, training_data: str) -> None:
@@ -26,7 +26,8 @@ class PreProcess:
 
         """
 
-        self.training_data = pd.read_csv(training_data)
+        self.raw_df = pd.read_csv(training_data)
+        self.preprocessor = None
 
 
     def separate_training_data(self) -> None:
@@ -37,21 +38,21 @@ class PreProcess:
         data, as the model has to not see this data. 
 
         Also prepares the "SalePrice" data as a Pandas Series against which to 
-        compare model predictions .
+        compare model predictions.
 
         """
 
-        input_features = self.training_data.drop(
+        features = self.raw_df.drop(
             ["SalePrice", "Id"],
             axis=1
         )
-        sale_prices = self.training_data["SalePrice"].values
+        targets = self.raw_df["SalePrice"].values
 
-        return input_features, sale_prices
+        return features, targets
 
 
     def separate_nums_and_categories(
-        self, input_features: DataFrame
+        self, features: pd.DataFrame
     ) -> List:
 
         """
@@ -64,7 +65,7 @@ class PreProcess:
         """
         
         num_cols = [
-            col for ccol in input_features.columns
+            col for col in input_features.columns
             if input_features[col].dtype != "object"
         ]
 
@@ -76,7 +77,7 @@ class PreProcess:
         return num_cols, category_cols
 
 
-    def preprocess_data(self, num_cols, category_cols) -> np.array:
+    def build_preprocessor(self, num_cols, category_cols) -> np.array:
 
         """
         
@@ -96,17 +97,15 @@ class PreProcess:
             steps=[('encoder', OneHotEncoder(handle_unknown='ignore'))]
         )
         
-        preprocessor = ColumnTransformer(
+        self.preprocessor = ColumnTransformer(
             transformers=[
                 ('num', numeric_transformer, num_cols),
                 ('cat', categorical_transformer, category_cols)
             ]
         )
 
-        return preprocessor
 
-
-    def pipeline(self) -> List:
+    def run(self) -> List:
 
         """
 
@@ -117,12 +116,11 @@ class PreProcess:
 
         """
 
-        input_features, sale_prices = self.separate_training_data()
-        num_cols, category_cols = self.separate_nums_and_categories(
-            input_features
-        )
-        preprocessed_data = self.preprocess_data(
-            num_cols, category_cols
-        )
+        features, targets = self.separate_training_data()
+        num_cols, category_cols = self.separate_nums_and_categories(features)
+        
+        self.build_preprocessor(num_cols, category_cols)
 
-        return preprocessed_data, sale_prices
+        features_processed = self.preprocessor.fit_transform(features)
+
+        return features_processed, targets
