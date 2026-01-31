@@ -54,7 +54,8 @@ class HousePriceDataset(Dataset):
 
         """
 
-        A required method as part of the Dataset class API.
+        A required method as part of the Dataset class API. Allows PyTorc
+        load mini-batches (ask for one row at a time).
 
         """
 
@@ -63,9 +64,22 @@ class HousePriceDataset(Dataset):
 
     @property
     def processed_features(self) -> torch.Tensor:
+
+        """
+        
+        Returns the pre-processed features tensor.
+        
+        """
+
         return self.processed_features
 
     
     @property
     def sale_prices(self) -> torch.Tensor:
+
+        """
+
+        Returns the sale price tensor (the answers for the model).
+        
+        """
         return self.sale_prices
