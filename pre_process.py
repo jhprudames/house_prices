@@ -53,7 +53,7 @@ class PreProcess:
 
     def separate_nums_and_categories(
         self, features: pd.DataFrame
-    ) -> List:
+    ) -> tuple:
 
         """
         
@@ -65,19 +65,19 @@ class PreProcess:
         """
         
         num_cols = [
-            col for col in input_features.columns
-            if input_features[col].dtype != "object"
+            col for col in features.columns
+            if features[col].dtype != "object"
         ]
 
         category_cols = [
-            col for col in input_features.columns
-            if input_features[col].dtype == "object"
+            col for col in features.columns
+            if features[col].dtype == "object"
         ]
 
         return num_cols, category_cols
 
 
-    def build_preprocessor(self, num_cols, category_cols) -> np.array:
+    def build_preprocessor(self, num_cols, category_cols) -> np.ndarray:
 
         """
         
@@ -105,7 +105,7 @@ class PreProcess:
         )
 
 
-    def run(self) -> List:
+    def run(self) -> tuple:
 
         """
 
